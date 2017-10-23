@@ -1,24 +1,5 @@
-# README
+# Cobalt
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+An open-source self-hosted YouTube alternative. Subscribe to other users on other servers using ActivityPub. Reduced bandwidth costs for server owners via WebTorrent.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Status: Very early prototyping phase, experimental. Don't use.
