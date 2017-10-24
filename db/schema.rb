@@ -10,16 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171021153041) do
+ActiveRecord::Schema.define(version: 20171024183743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "username", default: "", null: false
+    t.string "display_name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["username"], name: "index_accounts_on_username", unique: true
+  end
 
   create_table "videos", force: :cascade do |t|
     t.string "title"
     t.text "file_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "account_id"
+    t.boolean "published", default: false, null: false
+    t.text "description", default: "", null: false
   end
 
+  add_foreign_key "videos", "accounts", on_delete: :cascade
 end

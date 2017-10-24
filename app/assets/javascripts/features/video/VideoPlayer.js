@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import webtorrentClient from '../../webtorrent';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 const formatTime = secondsNum => {
   let hours   = Math.floor(secondsNum / 3600);
@@ -67,7 +68,11 @@ const getPointerPosition = (el, event) => {
   return position;
 };
 
-export default class VideoPlayer extends Component {
+export default class VideoPlayer extends PureComponent {
+
+  static propTypes = {
+    video: PropTypes.object.isRequired,
+  };
 
   state = {
     currentTime: 0,

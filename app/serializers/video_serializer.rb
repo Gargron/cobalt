@@ -1,7 +1,7 @@
 class VideoSerializer < ActiveModel::Serializer
   include RoutingHelper
 
-  attributes :id, :title, :resolution, :urls
+  attributes :id, :title, :resolution, :description, :published, :urls
 
   def duration
     object.file[:original].duration

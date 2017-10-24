@@ -1,23 +1,30 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import VideoPlayer from './VideoPlayer';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { fetchVideo } from '../../actions';
 
-export default class Video extends Component {
+@connect(state => ({ video: state.video }), dispatch => ({ fetchVideo: id => dispatch(fetchVideo(id)) }))
+export default class Video extends PureComponent {
 
-  state = {
-    video: null,
+  static propTypes = {
+    match: PropTypes.object,
+    video: PropTypes.object,
+    fetchVideo: PropTypes.func.isRequired,
   };
 
   componentDidMount () {
     const { id } = this.props.match.params;
+    const { fetchVideo } = this.props;
 
-    axios.get(`/api/videos/${id}`).then(res => this.setState({ video: res.data }));
+    fetchVideo(id);
   }
 
   render () {
-    const { video } = this.state;
+    const { video } = this.props;
 
-    if (!video) {
+    if (!video.id) {
       return null;
     }
 

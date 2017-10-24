@@ -16,9 +16,13 @@ export default class Uploads extends Component {
     const { videos } = this.state;
 
     return (
-      <div>
-        {videos.map(video => <Link key={video.id} to={`/videos/${video.id}`}>{video.title}</Link>)}
-      </div>
+      <ul>
+        {videos.map(video =>
+          <li key={video.id}>
+            <Link to={`/videos/${video.id}`}>{video.title}</Link>
+          </li>
+        )}
+      </ul>
     );
   }
 

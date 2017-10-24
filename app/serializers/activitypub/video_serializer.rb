@@ -1,0 +1,45 @@
+class ActivityPub::VideoSerializer < ActiveModel::Serializer
+  include RoutingHelper
+
+  attributes :id, :type, :name, :content, :url, :duration,
+             :published, :attributed_to
+
+  def id
+    TagManager.uri_for(object)
+  end
+
+  def type
+    'Video'
+  end
+
+  def name
+    object.title
+  end
+
+  def content
+    object.description
+  end
+
+  def published
+    object.created_at.iso8601
+  end
+
+  def updated
+    object.updated_at.iso8601
+  end
+
+  def duration
+    "PT#{object.file[:original].duration.floor}S"
+  end
+
+  def attributed_to
+    TagManager.uri_for(object.account)
+  end
+
+  def url
+    [
+      { type: 'Link', href: torrent_url(object), media_type: object.file[:original].mime_type },
+      { type: 'Link', href: torrent_url(object, format: :torrent), media_type: 'application/x-bittorrent' },
+    ]
+  end
+end
