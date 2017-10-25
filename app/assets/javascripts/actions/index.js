@@ -13,6 +13,10 @@ export const VIDEO_PUBLISH_REQUEST = 'VIDEO_PUBLISH_REQUEST';
 export const VIDEO_PUBLISH_SUCCESS = 'VIDEO_PUBLISH_SUCCESS';
 export const VIDEO_PUBLISH_FAILURE = 'VIDEO_PUBLISH_FAILURE';
 
+export const UPLOADS_FETCH_REQUEST = 'UPLOADS_FETCH_REQUEST';
+export const UPLOADS_FETCH_SUCCESS = 'UPLOADS_FETCH_SUCCESS';
+export const UPLOADS_FETCH_FAILURE = 'UPLOADS_FETCH_FAILURE';
+
 export const fetchVideo = id => dispatch => {
   dispatch({ type: VIDEO_FETCH_REQUEST });
 
@@ -41,4 +45,12 @@ export const publishUploadedVideo = ({ title, description }) => (dispatch, getSt
   axios.put(`/api/videos/${id}`, { title, description, published: true })
        .then(({ data }) => dispatch({ type: VIDEO_PUBLISH_SUCCESS, payload: data }))
        .catch(error => dispatch({ type: VIDEO_PUBLISH_FAILURE, error }));
+};
+
+export const fetchUploads = () => dispatch => {
+  dispatch({ type: UPLOADS_FETCH_REQUEST });
+
+  axios.get('/api/videos')
+       .then(({ data }) => dispatch({ type: UPLOADS_FETCH_SUCCESS, payload: data }))
+       .catch(error => dispatch({ type: UPLOADS_FETCH_FAILURE }));
 };

@@ -84,3 +84,12 @@ gem "mktorrent", "~> 1.7"
 
 # Added at 2017-10-22 14:55:30 +0200 by eugr:
 gem "pry-rails", "~> 0.3.6"
+
+# Added at 2017-10-25 16:19:53 +0200 by eugr:
+gem "fastimage", "~> 2.1"
+
+# Added at 2017-10-25 16:20:03 +0200 by eugr:
+gem "image_processing", "~> 0.4.5"
+
+# Added at 2017-10-25 16:20:18 +0200 by eugr:
+gem "mini_magick", "~> 4.8"

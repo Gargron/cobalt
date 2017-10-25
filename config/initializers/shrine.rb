@@ -6,7 +6,7 @@ Shrine.storages = {
   store: Shrine::Storage::FileSystem.new("public", prefix: "uploads/store"),
 }
 
-#Shrine.plugin :backgrounding
+Shrine.plugin :backgrounding
 
-#Shrine::Attacher.promote { |data| PromoteWorker.perform_async(data) }
-#Shrine::Attacher.delete  { |data| DeleteWorker.perform_async(data) }
+Shrine::Attacher.promote { |data| PromoteWorker.perform_async(data) }
+Shrine::Attacher.delete  { |data| DeleteWorker.perform_async(data) }

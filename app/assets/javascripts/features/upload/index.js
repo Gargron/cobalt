@@ -39,16 +39,22 @@ export default class Upload extends Component {
           {uploaded && <UploadPreview />}
 
           <form className='upload__form' onSubmit={handleSubmit}>
-            <div className='upload__form__field'>
-              <Field name='title' component='input' type='text' placeholder='Title' />
+            <div className='upload__form__sidebar'>
+              {uploaded && <div className='upload__form__thumbnail'><img src={uploaded.urls.thumbnail} alt='' /></div>}
             </div>
 
-            <div className='upload__form__field'>
-              <Field name='description' component='textarea' placeholder='Description' />
-            </div>
+            <div className='upload__form__fields'>
+              <div className='upload__form__field'>
+                <Field name='title' component='input' type='text' placeholder='Title' />
+              </div>
 
-            <div className='upload__form__actions'>
-              <button type='submit'>{uploaded && uploaded.published ? 'Save changes' : 'Publish'}</button>
+              <div className='upload__form__field'>
+                <Field name='description' component='textarea' placeholder='Description' />
+              </div>
+
+              <div className='upload__form__actions'>
+                <button type='submit'>{uploaded && uploaded.published ? 'Save changes' : 'Publish'}</button>
+              </div>
             </div>
           </form>
         </div>

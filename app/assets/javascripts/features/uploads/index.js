@@ -1,28 +1,34 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchUploads } from '../../actions';
+import Thumbnail from './Thumbnail';
 
-export default class Uploads extends Component {
+@connect(state => ({ videos: state.uploads }), dispatch => ({ fetchUploads: () => dispatch(fetchUploads()) }))
+export default class Uploads extends PureComponent {
 
-  state = {
-    videos: [],
+  static propTypes = {
+    videos: PropTypes.array.isRequired,
+    fetchUploads: PropTypes.func.isRequired,
   };
 
   componentDidMount () {
-    axios.get('/api/videos').then(res => this.setState({ videos: res.data }));
+    const { fetchUploads } = this.props;
+    fetchUploads();
   }
 
   render () {
-    const { videos } = this.state;
+    const { videos } = this.props;
 
     return (
-      <ul>
-        {videos.map(video =>
-          <li key={video.id}>
-            <Link to={`/videos/${video.id}`}>{video.title}</Link>
-          </li>
-        )}
-      </ul>
+      <div className='uploads'>
+        <Link to='/upload'>Upload new video</Link>
+
+        <div className='uploads__grid'>
+          {videos.map(video => <Thumbnail key={video.id} video={video} />)}
+        </div>
+      </div>
     );
   }
 

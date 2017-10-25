@@ -1,0 +1,36 @@
+.thumbnail {
+  display: block;
+  color: $color3;
+  text-decoration: none;
+  margin-bottom: 10px;
+  width: 200px;
+  font-size: 14px;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  &__title {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  &__author {
+    color: $color2;
+  }
+}
+
+.uploads__grid {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .thumbnail {
+    flex: 0 0 auto;
+    margin-right: 10px;
+  }
+}

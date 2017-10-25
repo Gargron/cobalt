@@ -1,5 +1,5 @@
 .upload {
-  width: 30vw;
+
 }
 
 .upload-progress {
@@ -34,7 +34,7 @@
 .upload__dropzone {
   background: lighten($color1, 4%);
   border-radius: 6px;
-  width: 100%;
+  width: 600px;
   height: 400px;
   display: flex;
   justify-content: center;
@@ -63,10 +63,26 @@
   background: lighten($color1, 4%);
   border-radius: 6px;
   padding: 20px;
-  width: calc(100% - 40px);
+  width: 600px - 40px;
+  display: flex;
 
   &__field {
     margin-bottom: 12px;
+  }
+
+  &__fields {
+    flex: 1 1 auto;
+  }
+
+  &__thumbnail {
+    flex: 0 0 auto;
+    width: 200px;
+    margin-right: 20px;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
 
   input,

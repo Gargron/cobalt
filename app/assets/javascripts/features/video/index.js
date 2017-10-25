@@ -30,9 +30,10 @@ export default class Video extends PureComponent {
 
     return (
       <div className='video'>
-        <h1>{video.title}</h1>
-
         <VideoPlayer video={video} />
+
+        <h1>{video.title}</h1>
+        {video.account.display_name}
       </div>
     );
   }
