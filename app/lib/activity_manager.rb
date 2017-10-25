@@ -3,27 +3,25 @@ class ActivityManager
     def create(type, object)
       data = ActiveModelSerializers::SerializableResource.new(
         object,
-        serializer: serializer_for_type(type),
-        adapter: ActivityPubAdapter
+        serializer: ActivityPub::ActivitySerializer,
+        adapter: ActivityPubAdapter,
+        type: type.to_s.capitalize,
+        actor: object_owner(object)
       ).as_json
 
       ApplicationRecord.transaction do
         payload = Payload.create!(id: data[:id], payload: data, local: true)
-        Activity.create!(account: object.account, payload: payload)
+        Activity.create!(account: object_owner(object), payload: payload)
       end
     end
 
     private
 
-    def serializer_for_type(type)
-      case type
-      when :create
-        ActivityPub::CreateSerializer
-      when :delete
-        ActivityPub::DeleteSerializer
-      else
-        raise ArgumentError
-      end
+    def object_owner(object)
+      return object if object.class.name == 'Account'
+      raise ArgumentError unless object.respond_to?(:account)
+
+      object.account
     end
   end
 end
