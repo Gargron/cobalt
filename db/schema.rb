@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024183743) do
+ActiveRecord::Schema.define(version: 20171025214456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(version: 20171024183743) do
     t.index ["username"], name: "index_accounts_on_username", unique: true
   end
 
+  create_table "activities", force: :cascade do |t|
+    t.bigint "account_id"
+    t.string "payload_id", default: "", null: false
+    t.index ["account_id", "payload_id"], name: "index_activities_on_account_id_and_payload_id", unique: true
+    t.index ["account_id"], name: "index_activities_on_account_id"
+  end
+
+  create_table "payloads", id: false, force: :cascade do |t|
+    t.string "id", default: "", null: false
+    t.boolean "local", default: false, null: false
+    t.jsonb "payload", default: {}, null: false
+    t.index ["id"], name: "index_payloads_on_id", unique: true
+  end
+
   create_table "videos", force: :cascade do |t|
     t.string "title"
     t.text "file_data"
@@ -33,5 +47,7 @@ ActiveRecord::Schema.define(version: 20171024183743) do
     t.text "description", default: "", null: false
   end
 
+  add_foreign_key "activities", "accounts", on_delete: :cascade
+  add_foreign_key "activities", "payloads", on_delete: :cascade
   add_foreign_key "videos", "accounts", on_delete: :cascade
 end

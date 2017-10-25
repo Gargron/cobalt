@@ -4,10 +4,15 @@ Rails.application.routes.draw do
   mount API => '/'
   mount Sidekiq::Web => '/sidekiq'
 
+  get '.well-known/webfinger', to: 'webfinger#show', as: :webfinger
+
   resources :torrents, only: :show
 
   get '/@:username', to: 'accounts#show', as: :account
-  get '/@:username/:id', to: 'videos#show', as: :video
+  get '/@:username/outbox', to: 'outboxes#show', as: :outbox
+  get '/@:username/activities/:id', to: 'activities#show', as: :activity
+  get '/@:username/videos/:id', to: 'videos#show', as: :video
+
   get '/*any', to: 'home#index', as: :web
 
   root 'home#index'

@@ -2,7 +2,13 @@
 
 class ActivityPubAdapter < ActiveModelSerializers::Adapter::Base
   CONTEXT = {
-    '@context': 'https://www.w3.org/ns/activitystreams',
+    '@context': [
+      'https://www.w3.org/ns/activitystreams',
+
+      {
+        'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
+      },
+    ],
   }.freeze
 
   def self.default_key_transform

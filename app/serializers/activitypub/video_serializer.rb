@@ -2,7 +2,7 @@ class ActivityPub::VideoSerializer < ActiveModel::Serializer
   include RoutingHelper
 
   attributes :id, :type, :name, :content, :url, :duration,
-             :published, :attributed_to
+             :published, :attributed_to, :preview
 
   def id
     TagManager.uri_for(object)
@@ -41,5 +41,9 @@ class ActivityPub::VideoSerializer < ActiveModel::Serializer
       { type: 'Link', href: torrent_url(object), media_type: object.file[:original].mime_type },
       { type: 'Link', href: torrent_url(object, format: :torrent), media_type: 'application/x-bittorrent' },
     ]
+  end
+
+  def preview
+    { type: 'Link', href: upload_url(object.file[:thumbnail].url), media_type: 'image/png' }
   end
 end

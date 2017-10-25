@@ -7,7 +7,7 @@ module RoutingHelper
 
   included do
     def default_url_options
-      { host: "localhost:#{ENV['PORT']}" }
+      ActionMailer::Base.default_url_options
     end
   end
 

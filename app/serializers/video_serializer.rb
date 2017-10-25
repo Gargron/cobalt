@@ -18,7 +18,7 @@ class VideoSerializer < ActiveModel::Serializer
     {
       original: torrent_url(object),
       torrent: torrent_url(object, format: :torrent),
-      thumbnail: object.file[:thumbnail].url,
+      thumbnail: upload_url(object.file[:thumbnail].url),
     }
   end
 end

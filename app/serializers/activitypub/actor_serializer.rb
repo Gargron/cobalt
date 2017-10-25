@@ -2,7 +2,8 @@ class ActivityPub::ActorSerializer < ActiveModel::Serializer
   include RoutingHelper
 
   attributes :id, :type, :preferred_username, :name,
-             :inbox, :outbox
+             :inbox, :outbox, :manually_approves_followers,
+             :following, :followers
 
   def id
     TagManager.uri_for(object)
@@ -25,6 +26,18 @@ class ActivityPub::ActorSerializer < ActiveModel::Serializer
   end
 
   def outbox
+    outbox_url(object)
+  end
+
+  def following
     nil
+  end
+
+  def followers
+    nil
+  end
+
+  def manually_approves_followers
+    false
   end
 end

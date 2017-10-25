@@ -12,7 +12,7 @@ class API < Grape::API
 
   resources :videos do
     get do
-      Video.published
+      current_account.videos.published
     end
 
     params do
@@ -31,8 +31,25 @@ class API < Grape::API
       end
 
       put do
-        video = current_account.videos.find(params[:id])
+        video     = current_account.videos.find(params[:id])
+        published = video.published
+
         video.update!(declared(params, include_missing: false))
+
+        if !published && video.published
+          ActivityManager.create(:create, video)
+        elsif published && !video.published
+          ActivityManager.create(:delete, video)
+        elsif video.published
+          ActivityManager.create(:update, video)
+        end
+
+        video
+      end
+
+      delete do
+        video = current_account.videos.find(params[:id])
+        video.destroy!
         video
       end
     end
