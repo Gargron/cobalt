@@ -16,4 +16,12 @@ class Account < ApplicationRecord
   def to_param
     username
   end
+
+  def key
+    @key ||= OpenSSL::PKey::RSA.new(attributes['key'])
+  end
+
+  before_create do
+    self.key = OpenSSL::PKey::RSA.new(Rails.env.test? ? 512 : 2048).to_pem if local?
+  end
 end

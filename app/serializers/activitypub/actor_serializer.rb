@@ -3,10 +3,10 @@ class ActivityPub::ActorSerializer < ActiveModel::Serializer
 
   attributes :id, :type, :preferred_username, :name, :url,
              :inbox, :outbox, :manually_approves_followers,
-             :following, :followers, :endpoints
+             :following, :followers, :endpoints, :public_key
 
-  has_one :icon,  serializer: ActivityPub::ImageSerializer, if: :avatar_exists?
-  has_one :image, serializer: ActivityPub::ImageSerializer, if: :header_exists?
+  attribute :icon,  if: :avatar_exists?
+  attribute :image, if: :header_exists?
 
   def id
     TagManager.uri_for(object)
@@ -66,5 +66,9 @@ class ActivityPub::ActorSerializer < ActiveModel::Serializer
 
   def header_exists?
     false
+  end
+
+  def public_key
+    { id: [TagManager.uri_for(object), '#main-key'].join, owner: TagManager.uri_for(object), public_key_pem: object.key.public_key.to_pem }
   end
 end
