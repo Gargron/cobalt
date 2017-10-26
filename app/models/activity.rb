@@ -1,4 +1,4 @@
 class Activity < ApplicationRecord
-  belongs_to :account, required: true
-  belongs_to :payload, required: true
+  belongs_to :account
+  belongs_to :payload
 end

@@ -2,7 +2,8 @@ class ActivityPub::VideoSerializer < ActiveModel::Serializer
   include RoutingHelper
 
   attributes :id, :type, :name, :content, :url, :duration,
-             :published, :attributed_to, :preview
+             :published, :updated, :attributed_to, :preview,
+             :to
 
   def id
     TagManager.uri_for(object)
@@ -21,7 +22,7 @@ class ActivityPub::VideoSerializer < ActiveModel::Serializer
   end
 
   def published
-    object.created_at.iso8601
+    object.published_at.iso8601
   end
 
   def updated
@@ -34,6 +35,10 @@ class ActivityPub::VideoSerializer < ActiveModel::Serializer
 
   def attributed_to
     TagManager.uri_for(object.account)
+  end
+
+  def to
+    'https://www.w3.org/ns/activitystreams#Public'
   end
 
   def url

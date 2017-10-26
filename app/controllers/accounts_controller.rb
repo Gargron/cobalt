@@ -15,6 +15,6 @@ class AccountsController < ApplicationController
   private
 
   def set_account
-    @account = Account.find_by!(username: params[:username])
+    @account = Account.local.find_by!(username: params[:username])
   end
 end

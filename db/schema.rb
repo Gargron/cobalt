@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171025214456) do
+ActiveRecord::Schema.define(version: 20171026214139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,9 @@ ActiveRecord::Schema.define(version: 20171025214456) do
     t.string "display_name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["username"], name: "index_accounts_on_username", unique: true
+    t.boolean "local", default: false, null: false
+    t.string "uri", default: "", null: false
+    t.index ["username"], name: "index_accounts_on_username", unique: true, where: "(local = true)"
   end
 
   create_table "activities", force: :cascade do |t|
@@ -28,6 +30,11 @@ ActiveRecord::Schema.define(version: 20171025214456) do
     t.string "payload_id", default: "", null: false
     t.index ["account_id", "payload_id"], name: "index_activities_on_account_id_and_payload_id", unique: true
     t.index ["account_id"], name: "index_activities_on_account_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.bigint "account_id", default: 0, null: false
+    t.bigint "target_account_id", default: 0, null: false
   end
 
   create_table "payloads", id: false, force: :cascade do |t|
@@ -43,11 +50,13 @@ ActiveRecord::Schema.define(version: 20171025214456) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "account_id"
-    t.boolean "published", default: false, null: false
     t.text "description", default: "", null: false
+    t.datetime "published_at"
   end
 
   add_foreign_key "activities", "accounts", on_delete: :cascade
   add_foreign_key "activities", "payloads", on_delete: :cascade
+  add_foreign_key "follows", "accounts", column: "target_account_id", on_delete: :cascade
+  add_foreign_key "follows", "accounts", on_delete: :cascade
   add_foreign_key "videos", "accounts", on_delete: :cascade
 end

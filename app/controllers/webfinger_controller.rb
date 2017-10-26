@@ -14,7 +14,7 @@ class WebfingerController < ApplicationController
   private
 
   def set_account
-    @account = Account.find_by!(username: username_from_resource)
+    @account = Account.local.find_by!(username: username_from_resource)
   end
 
   def username_from_resource

@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   get '/@:username/activities/:id', to: 'activities#show', as: :activity
   get '/@:username/videos/:id', to: 'videos#show', as: :video
 
+  post '/@:username/inbox', to: 'inboxes#create', as: :inbox
+  post '/inbox', to: 'inboxes#create', as: :shared_inbox
+
   get '/*any', to: 'home#index', as: :web
 
   root 'home#index'
