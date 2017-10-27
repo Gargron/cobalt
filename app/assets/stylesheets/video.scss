@@ -92,8 +92,9 @@ a {
     left: 0;
     right: 0;
     box-sizing: border-box;
+    background: linear-gradient(0deg, rgba($base-shadow-color, 0.8) 0, rgba($base-shadow-color, 0.35) 60%, transparent);
     padding: 0;
-    //opacity: 0;
+    opacity: 0;
     transition: opacity .1s ease;
     padding: 0 15px;
 
@@ -102,16 +103,13 @@ a {
     }
   }
 
+  &__buttons-bar {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__buttons {
     padding-bottom: 9px;
-
-    &.left {
-      float: left;
-    }
-
-    &.right {
-      float: right;
-    }
   }
 
   &__seek {
@@ -186,5 +184,15 @@ a {
   &__time-sep,
   &__time-total {
     color: $base-light-color;
+  }
+
+  &__viewers {
+    color: $base-light-color;
+    display: inline-block;
+    padding: 15px;
+
+    .ion-eye {
+      margin-right: 5px;
+    }
   }
 }

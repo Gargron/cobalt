@@ -81,6 +81,7 @@ export default class VideoPlayer extends PureComponent {
     ready: false,
     download: 0,
     dragging: false,
+    numPeers: 0,
   };
 
   componentDidMount () {
@@ -102,6 +103,7 @@ export default class VideoPlayer extends PureComponent {
     this.torrent.pause();
     this.torrent.removeListener('ready', this.handleTorrentReady);
     this.torrent.removeListener('download', this.handleTorrentDownload);
+    this.torrent.removeListener('wire', this.handleTorrentWire);
     this.torrent = null;
   }
 
@@ -109,6 +111,7 @@ export default class VideoPlayer extends PureComponent {
     this.torrent = addTorrent(torrentUrl);
     this.torrent.on('ready', this.handleTorrentReady);
     this.torrent.on('download', this.handleTorrentDownload);
+    this.torrent.on('wire', this.handleTorrentWire);
 
     if (this.torrent.ready) {
       this.torrent.resume();
@@ -124,12 +127,16 @@ export default class VideoPlayer extends PureComponent {
   }
 
   handleTorrentReady = () => {
-    this.setState({ ready: true });
+    this.setState({ ready: true, numPeers: this.torrent.numPeers });
     this.torrent.files[0].renderTo(this.video);
   }
 
   handleTorrentDownload = () => {
     this.setState({ download: this.torrent.progress });
+  }
+
+  handleTorrentWire = () => {
+    this.setState({ numPeers: this.torrent.numPeers });
   }
 
   handlePlay = () => {
@@ -177,6 +184,14 @@ export default class VideoPlayer extends PureComponent {
     this.setState({ currentTime });
   }
 
+  handleMouseEnter = () => {
+    this.setState({ hovered: true });
+  }
+
+  handleMouseLeave = () => {
+    setTimeout(() => this.setState({ hovered: false }), 200);
+  }
+
   togglePlay = () => {
     if (this.state.paused) {
       this.video.play();
@@ -187,12 +202,13 @@ export default class VideoPlayer extends PureComponent {
 
   render () {
     const { video } = this.props;
-    const { paused, currentTime, duration, download, dragging } = this.state;
+    const { paused, currentTime, duration, download, dragging, numPeers, hovered } = this.state;
     const [ width, height ] = video.resolution.split('x');
     const progress = (currentTime / duration) * 100;
+    const active = paused || hovered || dragging;
 
     return (
-      <div className='video-player' style={{ width, height }}>
+      <div className={classNames('video-player', { active })} style={{ width, height }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         <video
           ref={this.setVideoRef}
           onPlay={this.handlePlay}
@@ -202,7 +218,7 @@ export default class VideoPlayer extends PureComponent {
           muted
         />
 
-        <div className='video-player__controls'>
+        <div className={classNames('video-player__controls', { active })}>
           <div className='video-player__seek' onMouseDown={this.handleMouseDown} ref={this.setSeekRef}>
             <div className='video-player__seek__buffer' style={{ width: `${download * 100}%` }} />
             <div className='video-player__seek__progress' style={{ width: `${progress}%` }} />
@@ -214,12 +230,18 @@ export default class VideoPlayer extends PureComponent {
             />
           </div>
 
-          <div className='video-player__buttons'>
-            <button onClick={this.togglePlay}><i className={paused ? 'ion-play' : 'ion-pause'} /></button>
+          <div className='video-player__buttons-bar'>
+            <div className='video-player__buttons left'>
+              <button onClick={this.togglePlay}><i className={paused ? 'ion-play' : 'ion-pause'} /></button>
 
-            <span className='video-player__time-current'>{formatTime(currentTime)}</span>
-            <span className='video-player__time-sep'>/</span>
-            <span className='video-player__time-total'>{formatTime(duration)}</span>
+              <span className='video-player__time-current'>{formatTime(currentTime)}</span>
+              <span className='video-player__time-sep'>/</span>
+              <span className='video-player__time-total'>{formatTime(duration)}</span>
+            </div>
+
+            <div className='video-player__buttons right'>
+              <span className='video-player__viewers'><i className='ion-eye' /> {numPeers}</span>
+            </div>
           </div>
         </div>
       </div>
