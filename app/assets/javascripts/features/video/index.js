@@ -21,6 +21,12 @@ export default class Video extends PureComponent {
     fetchVideo(id);
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      this.props.fetchVideo(nextProps.match.params.id);
+    }
+  }
+
   render () {
     const { video } = this.props;
 
@@ -32,8 +38,11 @@ export default class Video extends PureComponent {
       <div className='video'>
         <VideoPlayer video={video} />
 
-        <h1>{video.title}</h1>
-        {video.account.display_name}
+        <div className='video__about'>
+          <h1 className='video__about__title'>{video.title}</h1>
+          <div className='video__about__published'>Published on {video.published_at}</div>
+          {video.description.length > 0 && <div className='video__about__description'>{video.description}</div>}
+        </div>
       </div>
     );
   }

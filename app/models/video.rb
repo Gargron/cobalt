@@ -15,9 +15,9 @@ class Video < ApplicationRecord
 
   def published=(val)
     if val
-      published_at = Time.now.utc
+      self.published_at = Time.now.utc
     else
-      published_at = nil
+      self.published_at = nil
     end
   end
 

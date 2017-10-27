@@ -2,7 +2,7 @@ class VideoSerializer < ActiveModel::Serializer
   include RoutingHelper
 
   attributes :id, :title, :resolution, :description,
-             :published, :urls
+             :published, :published_at, :urls
 
   has_one :account
 

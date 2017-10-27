@@ -13,12 +13,21 @@ body {
   font-family: Roboto, sans-serif;
   font-size: 16px;
   line-height: 16px;
-  background: darken($color1, 4%);
+  background: darken($color1, 12%);
   color: $color2;
 }
 
 #root {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+*:focus {
+  outline: 0;
 }
 
 a {
@@ -26,11 +35,29 @@ a {
 }
 
 .video {
-  h1 {
-    font-size: 18px;
-    font-weight: 700;
+  &__about {
     margin-top: 20px;
-    margin-bottom: 10px;
+    background: $color1;
+    border-radius: 4px;
+    font-size: 15px;
+    padding: 15px;
+
+    &__title {
+      color: $color2;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    &__published {
+      color: lighten($color1, 34%);
+      font-weight: 500;
+    }
+
+    &__description {
+      margin-top: 20px;
+      color: $color2;
+    }
   }
 }
 
@@ -38,20 +65,23 @@ a {
   overflow: hidden;
   position: relative;
   background: $base-shadow-color;
-  max-width: 100%;
-  border-radius: 6px;
+  width: 659px;
+  height: (659px * 9px) / 16px;
+  border-radius: 4px;
 
   video {
     height: 100%;
     width: 100%;
     z-index: 1;
+    object-fit: contain;
   }
 
   button {
     background: transparent;
     border: 0;
-    padding: 0 10px;
-    color: $color4;
+    padding: 15px;
+    font-size: 16px;
+    color: $base-light-color;
     cursor: pointer;
   }
 
@@ -62,10 +92,10 @@ a {
     left: 0;
     right: 0;
     box-sizing: border-box;
-    background: lighten($color1, 8%);
     padding: 0;
     //opacity: 0;
     transition: opacity .1s ease;
+    padding: 0 15px;
 
     &.active {
       opacity: 1;
@@ -73,8 +103,7 @@ a {
   }
 
   &__buttons {
-    padding: 10px 0;
-    font-size: 16px;
+    padding-bottom: 9px;
 
     &.left {
       float: left;
@@ -87,7 +116,7 @@ a {
 
   &__seek {
     cursor: pointer;
-    height: 10px;
+    height: 24px;
     position: relative;
 
     &::before {
@@ -96,16 +125,16 @@ a {
       background: rgba($base-light-color, 0.35);
       display: block;
       position: absolute;
-      height: 8px;
-      top: 0;
+      height: 4px;
+      top: 10px;
     }
 
     &__progress,
     &__buffer {
       display: block;
       position: absolute;
-      height: 8px;
-      top: 0;
+      height: 4px;
+      top: 10px;
       background: $color4;
     }
 
@@ -118,10 +147,10 @@ a {
       z-index: 3;
       opacity: 0;
       border-radius: 50%;
-      width: 14px;
-      height: 14px;
-      top: -2px;
-      margin-left: -7px;
+      width: 12px;
+      height: 12px;
+      top: 6px;
+      margin-left: -6px;
       transition: opacity .1s ease;
       background: $color4;
       pointer-events: none;
@@ -142,10 +171,11 @@ a {
   &__time-total,
   &__time-current {
     font-size: 14px;
+    font-weight: 500;
   }
 
   &__time-current {
-    color: $color3;
+    color: $base-light-color;
   }
 
   &__time-sep {
@@ -155,6 +185,6 @@ a {
 
   &__time-sep,
   &__time-total {
-    color: lighten($color1, 30%);
+    color: $base-light-color;
   }
 }

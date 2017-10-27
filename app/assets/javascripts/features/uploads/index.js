@@ -23,7 +23,9 @@ export default class Uploads extends PureComponent {
 
     return (
       <div className='uploads'>
-        <Link to='/upload'>Upload new video</Link>
+        <div className='uploads__header'>
+          My channel
+        </div>
 
         <div className='uploads__grid'>
           {videos.map(video => <Thumbnail key={video.id} video={video} />)}

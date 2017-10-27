@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import webtorrentClient from '../../webtorrent';
+import { addTorrent } from '../../webtorrent';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -84,21 +84,36 @@ export default class VideoPlayer extends PureComponent {
   };
 
   componentDidMount () {
-    this.torrent = webtorrentClient.add(this.props.video.urls.torrent);
+    this._setupTorrent(this.props.video.urls.torrent);
+  }
 
-    this.torrent.on('ready', () => {
-      this.setState({ ready: true });
-
-      this.torrent.files[0].renderTo(this.video);
-    });
-
-    this.torrent.on('download', () => {
-      this.setState({ download: this.torrent.progress });
-    });
+  componentWillReceiveProps (nextProps) {
+    if (this.props.video.urls.torrent !== nextProps.video.urls.torrent) {
+      this._unbindTorrent();
+      this._setupTorrent(nextProps.video.urls.torrent);
+    }
   }
 
   componentWillUnmount () {
-    this.torrent.destroy();
+    this._unbindTorrent();
+  }
+
+  _unbindTorrent () {
+    this.torrent.pause();
+    this.torrent.removeListener('ready', this.handleTorrentReady);
+    this.torrent.removeListener('download', this.handleTorrentDownload);
+    this.torrent = null;
+  }
+
+  _setupTorrent (torrentUrl) {
+    this.torrent = addTorrent(torrentUrl);
+    this.torrent.on('ready', this.handleTorrentReady);
+    this.torrent.on('download', this.handleTorrentDownload);
+
+    if (this.torrent.ready) {
+      this.torrent.resume();
+      this.handleTorrentReady();
+    }
   }
 
   handleTimeUpdate = () => {
@@ -106,6 +121,15 @@ export default class VideoPlayer extends PureComponent {
       currentTime: Math.floor(this.video.currentTime),
       duration: Math.floor(this.video.duration),
     });
+  }
+
+  handleTorrentReady = () => {
+    this.setState({ ready: true });
+    this.torrent.files[0].renderTo(this.video);
+  }
+
+  handleTorrentDownload = () => {
+    this.setState({ download: this.torrent.progress });
   }
 
   handlePlay = () => {

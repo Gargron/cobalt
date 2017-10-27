@@ -1,0 +1,106 @@
+.ui {
+  width: 960px;
+  box-shadow: 2px 2px 6px rgba($base-shadow-color, 0.3);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ui__layout {
+  display: flex;
+}
+
+.ui__navigation {
+  flex: 0 0 auto;
+  width: 240px;
+  background: darken($color1, 8%);
+  border-right: 1px solid darken($color1, 9%);
+  padding: 30px 10px;
+}
+
+.ui__header {
+  background: lighten($color1, 4%);
+  box-shadow: 2px 2px 4px rgba($base-shadow-color, 0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.ui__page {
+  padding: 20px;
+  flex: 1 1 auto;
+  background: darken($color1, 4%);
+}
+
+.header {
+  display: flex;
+  height: 60px;
+
+  &__brand {
+    width: 240px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  &__search {
+    flex: 1 1 auto;
+  }
+
+  &__profile {
+    padding: 0 8px;
+
+    a {
+      display: inline-block;
+      color: $color3;
+      text-decoration: none;
+      padding: 22px 15px;
+      font-size: 15px;
+      font-weight: 500;
+
+      .ion-plus {
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.navigation {
+  border-left: 2px solid $color1;
+
+  &__section {
+    margin-bottom: 20px;
+
+    &__header {
+      padding: 6px 10px;
+      font-size: 13px;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: $color4;
+    }
+
+    &__items {
+      a {
+        display: inline-block;
+        padding: 6px 10px;
+        color: lighten($color1, 30%);
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 500;
+        border-left: 2px solid transparent;
+        position: relative;
+        left: -2px;
+
+        &:hover,
+        &:focus {
+          color: lighten($color1, 34%);
+        }
+
+        &.active {
+          color: $color2;
+          border-left: 2px solid $color4;
+        }
+      }
+    }
+  }
+}

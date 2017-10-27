@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm, formValues, change } from 'redux-form';
 import { connect } from 'react-redux';
-import { uploadVideo, publishUploadedVideo } from '../../actions';
+import { uploadVideo, publishUploadedVideo, resetUploadedVideo } from '../../actions';
 import Dropzone from 'react-dropzone';
 import UploadProgress from './UploadProgress';
 import UploadPreview from './UploadPreview';
@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  initialize: () => dispatch(resetUploadedVideo()),
   onDrop: files => dispatch(uploadVideo(files[0])),
   onSubmit: values => dispatch(publishUploadedVideo(values)),
 });
@@ -27,7 +28,15 @@ export default class Upload extends Component {
     uploaded: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     uploading: PropTypes.bool.isRequired,
     onDrop: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
   };
+
+  componentWillMount () {
+    const { initialize, reset } = this.props;
+    reset();
+    initialize();
+  }
 
   render () {
     const { uploaded, uploading, progress, onDrop, handleSubmit } = this.props;

@@ -13,6 +13,8 @@ export const VIDEO_PUBLISH_REQUEST = 'VIDEO_PUBLISH_REQUEST';
 export const VIDEO_PUBLISH_SUCCESS = 'VIDEO_PUBLISH_SUCCESS';
 export const VIDEO_PUBLISH_FAILURE = 'VIDEO_PUBLISH_FAILURE';
 
+export const VIDEO_UPLOAD_RESET = 'VIDEO_UPLOAD_RESET';
+
 export const UPLOADS_FETCH_REQUEST = 'UPLOADS_FETCH_REQUEST';
 export const UPLOADS_FETCH_SUCCESS = 'UPLOADS_FETCH_SUCCESS';
 export const UPLOADS_FETCH_FAILURE = 'UPLOADS_FETCH_FAILURE';
@@ -54,3 +56,7 @@ export const fetchUploads = () => dispatch => {
        .then(({ data }) => dispatch({ type: UPLOADS_FETCH_SUCCESS, payload: data }))
        .catch(error => dispatch({ type: UPLOADS_FETCH_FAILURE }));
 };
+
+export const resetUploadedVideo = () => ({
+  type: VIDEO_UPLOAD_RESET,
+});

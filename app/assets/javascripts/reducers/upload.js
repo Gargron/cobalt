@@ -4,6 +4,7 @@ import {
   VIDEO_UPLOAD_SUCCESS,
   VIDEO_UPLOAD_FAILURE,
   VIDEO_PUBLISH_SUCCESS,
+  VIDEO_UPLOAD_RESET,
 } from '../actions';
 
 const initialState = {
@@ -24,6 +25,8 @@ export default function uploadReducer(state = initialState, action) {
     return { ...state, uploaded: false, uploading: false, progress: 0 };
   case VIDEO_PUBLISH_SUCCESS:
     return { ...state, uploaded: action.payload };
+  case VIDEO_UPLOAD_RESET:
+    return { ...state, uploaded: false, uploading: false, progress: 0 };
   default:
     return state;
   }
