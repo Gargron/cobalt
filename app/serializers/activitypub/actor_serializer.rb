@@ -5,8 +5,8 @@ class ActivityPub::ActorSerializer < ActiveModel::Serializer
              :inbox, :outbox, :manually_approves_followers,
              :following, :followers, :endpoints, :public_key
 
-  attribute :icon,  if: :avatar_exists?
-  attribute :image, if: :header_exists?
+  has_one :icon, serializer: ActivityPub::ImageSerializer,  if: :avatar_exists?
+  has_one :image, serializer: ActivityPub::ImageSerializer, if: :header_exists?
 
   def id
     TagManager.uri_for(object)
@@ -61,11 +61,11 @@ class ActivityPub::ActorSerializer < ActiveModel::Serializer
   end
 
   def avatar_exists?
-    false
+    object.avatar&.exists?
   end
 
   def header_exists?
-    false
+    object.header&.exists?
   end
 
   def public_key

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171026221505) do
+ActiveRecord::Schema.define(version: 20171030220744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20171026221505) do
     t.boolean "local", default: false, null: false
     t.string "uri", default: "", null: false
     t.text "key", default: "", null: false
+    t.text "avatar_data"
+    t.text "header_data"
     t.index ["username"], name: "index_accounts_on_username", unique: true, where: "(local = true)"
   end
 

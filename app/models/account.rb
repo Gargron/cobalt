@@ -1,4 +1,7 @@
 class Account < ApplicationRecord
+  include AvatarUploader::Attachment.new(:avatar)
+  include HeaderUploader::Attachment.new(:header)
+
   validates :username, presence: true
 
   has_many :videos

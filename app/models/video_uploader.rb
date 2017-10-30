@@ -12,7 +12,7 @@ class VideoUploader < Shrine
   plugin :recache
 
   Attacher.validate do
-    validate_mime_type_inclusion ['video/mp4', 'video/webm']
+    validate_mime_type_inclusion %w[video/mp4 video/webm]
   end
 
   add_metadata do |io, context|

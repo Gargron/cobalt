@@ -4,6 +4,7 @@ class ActivityPubAdapter < ActiveModelSerializers::Adapter::Base
   CONTEXT = {
     '@context': [
       'https://www.w3.org/ns/activitystreams',
+      'https://w3id.org/security/v1',
 
       {
         'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
