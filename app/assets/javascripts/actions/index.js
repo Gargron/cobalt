@@ -22,7 +22,7 @@ export const UPLOADS_FETCH_FAILURE = 'UPLOADS_FETCH_FAILURE';
 export const fetchVideo = id => dispatch => {
   dispatch({ type: VIDEO_FETCH_REQUEST });
 
-  axios.get(`/api/videos/${id}`)
+  axios.get(`/api/v1/videos/${id}`)
        .then(({ data }) => dispatch({ type: VIDEO_FETCH_SUCCESS, payload: data }))
        .catch(error => dispatch({ type: VIDEO_FETCH_FAILURE, error }));
 };
@@ -34,7 +34,7 @@ export const uploadVideo = file => dispatch => {
 
   data.append('file', file);
 
-  axios.post('/api/videos', data, { onUploadProgress: ({ loaded, total }) => dispatch({ type: VIDEO_UPLOAD_PROGRESS, payload: { loaded, total } }) })
+  axios.post('/api/v1/videos', data, { onUploadProgress: ({ loaded, total }) => dispatch({ type: VIDEO_UPLOAD_PROGRESS, payload: { loaded, total } }) })
        .then(({ data }) => dispatch({ type: VIDEO_UPLOAD_SUCCESS, payload: data }))
        .catch(error => dispatch({ type: VIDEO_UPLOAD_FAILURE, error }));
 };
@@ -44,7 +44,7 @@ export const publishUploadedVideo = ({ title, description }) => (dispatch, getSt
 
   dispatch({ type: VIDEO_PUBLISH_REQUEST });
 
-  axios.put(`/api/videos/${id}`, { title, description, published: true })
+  axios.put(`/api/v1/videos/${id}`, { title, description, published: true })
        .then(({ data }) => dispatch({ type: VIDEO_PUBLISH_SUCCESS, payload: data }))
        .catch(error => dispatch({ type: VIDEO_PUBLISH_FAILURE, error }));
 };
@@ -52,7 +52,7 @@ export const publishUploadedVideo = ({ title, description }) => (dispatch, getSt
 export const fetchUploads = () => dispatch => {
   dispatch({ type: UPLOADS_FETCH_REQUEST });
 
-  axios.get('/api/videos')
+  axios.get('/api/v1/videos')
        .then(({ data }) => dispatch({ type: UPLOADS_FETCH_SUCCESS, payload: data }))
        .catch(error => dispatch({ type: UPLOADS_FETCH_FAILURE }));
 };

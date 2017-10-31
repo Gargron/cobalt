@@ -1,5 +1,5 @@
 class API < Grape::API
-  version 'v1', using: :header, vendor: 'cobalt'
+  version 'v1', using: :path, vendor: 'cobalt'
   format :json
   formatter :json, Grape::Formatter::ActiveModelSerializers
   prefix :api

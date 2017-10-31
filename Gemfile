@@ -47,3 +47,5 @@ gem 'fast_blank', '~> 1.0'
 gem 'http', '~> 2.2'
 gem 'oj', '~> 3.0'
 gem 'rdf-normalize', '~> 0.3.1'
+gem 'hiredis', '~> 0.6'
+gem 'redis', '~> 4.0', require: ['redis', 'redis/connection/hiredis']
