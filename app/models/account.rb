@@ -20,6 +20,10 @@ class Account < ApplicationRecord
     username
   end
 
+  def remote?
+    !local?
+  end
+
   def key
     @key ||= OpenSSL::PKey::RSA.new(attributes['key'])
   end

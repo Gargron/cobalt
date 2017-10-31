@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030220744) do
+ActiveRecord::Schema.define(version: 20171031173557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20171030220744) do
     t.text "key", default: "", null: false
     t.text "avatar_data"
     t.text "header_data"
+    t.string "inbox_url"
     t.index ["username"], name: "index_accounts_on_username", unique: true, where: "(local = true)"
   end
 
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 20171030220744) do
     t.bigint "account_id"
     t.text "description", default: "", null: false
     t.datetime "published_at"
+    t.text "thumbnail_data"
   end
 
   add_foreign_key "activities", "accounts", on_delete: :cascade

@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  initialize: () => dispatch(resetUploadedVideo()),
+  onInitialize: () => dispatch(resetUploadedVideo()),
   onDrop: files => dispatch(uploadVideo(files[0])),
   onSubmit: values => dispatch(publishUploadedVideo(values)),
 });
@@ -28,14 +28,14 @@ export default class Upload extends Component {
     uploaded: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     uploading: PropTypes.bool.isRequired,
     onDrop: PropTypes.func.isRequired,
-    initialize: PropTypes.func.isRequired,
+    onInitialize: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
   };
 
   componentWillMount () {
-    const { initialize, reset } = this.props;
+    const { onInitialize, reset } = this.props;
     reset();
-    initialize();
+    onInitialize();
   }
 
   render () {

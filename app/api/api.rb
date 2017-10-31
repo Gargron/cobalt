@@ -28,6 +28,7 @@ class API < Grape::API
         optional :title, type: String
         optional :published, type: Boolean
         optional :description, type: String
+        optional :thumbnail, type: File
       end
 
       put do
@@ -59,8 +60,7 @@ class API < Grape::API
     end
 
     post do
-      Video.create!(file: params[:file][:tempfile],
-                    account: current_account)
+      Video.create!(declared(params).merge(account: current_account))
     end
   end
 end

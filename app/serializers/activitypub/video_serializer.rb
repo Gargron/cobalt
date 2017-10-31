@@ -43,12 +43,12 @@ class ActivityPub::VideoSerializer < ActiveModel::Serializer
 
   def url
     [
-      { type: 'Link', href: torrent_url(object), media_type: object.file[:original].mime_type },
+      { type: 'Link', href: torrent_url(object), media_type: object.file.mime_type },
       { type: 'Link', href: torrent_url(object, format: :torrent), media_type: 'application/x-bittorrent' },
     ]
   end
 
   def preview
-    { type: 'Link', href: upload_url(object.file[:thumbnail].url), media_type: 'image/png' }
+    { type: 'Link', href: upload_url(object.thumbnail.url), media_type: 'image/png' }
   end
 end

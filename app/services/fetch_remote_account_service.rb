@@ -23,6 +23,7 @@ class FetchRemoteAccountService
     @account ||= Account.new(uri: @uri, username: @username, local: false)
 
     @account.display_name      = @json['name'] || ''
+    @account.inbox_url         = @json['inbox']
     @account.avatar_remote_url = image_url('icon')
     @account.header_remote_url = image_url('image')
     @account.key               = public_key

@@ -1,6 +1,5 @@
 class HeaderUploader < Shrine
-  include ImageProcessing::MiniMagick
-
+  plugin :rack_file
   plugin :determine_mime_type
   plugin :activerecord
   plugin :logging, logger: Rails.logger

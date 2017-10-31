@@ -1,5 +1,6 @@
 class Video < ApplicationRecord
   include VideoUploader::Attachment.new(:file)
+  include ThumbnailUploader::Attachment.new(:thumbnail)
 
   belongs_to :account
 

@@ -1,6 +1,5 @@
 class VideoUploader < Shrine
-  include ImageProcessing::MiniMagick
-
+  plugin :rack_file
   plugin :determine_mime_type
   plugin :activerecord
   plugin :logging, logger: Rails.logger
@@ -16,7 +15,7 @@ class VideoUploader < Shrine
   end
 
   add_metadata do |io, context|
-    next if File.extname(io) == '.png'
+    next if File.extname(io.to_io) == '.png'
 
     movie = FFMPEG::Movie.new(io.path)
 
@@ -30,7 +29,7 @@ class VideoUploader < Shrine
 
   metadata_method :duration, :bitrate, :resolution, :frame_rate
 
-  process(:recache) do |io|
+  process(:recache) do |io, context|
     raw   = io.download
     movie = FFMPEG::Movie.new(raw.path)
     thumb = Tempfile.new(['thumbnail', '.png'], binmode: true)
@@ -38,10 +37,9 @@ class VideoUploader < Shrine
     movie.screenshot(thumb.path)
     raw.delete
 
-    width, _ = FastImage.size(thumb.path)
-    thumb    = resize_and_pad!(thumb, width, ((width / 16) * 9).floor, background: 'black', gravity: 'Center')
+    context[:record].thumbnail = thumb
 
-    { original: io, thumbnail: thumb }
+    io
   end
 
   process(:store) do |io|
@@ -52,6 +50,6 @@ class VideoUploader < Shrine
     movie.transcode(original.path, video_codec: 'libx264', custom: %w(-movflags faststart -strict -2))
     raw.delete
 
-    { original: original, thumbnail: io[:thumbnail] }
+    original
   end
 end

@@ -7,18 +7,18 @@ class VideoSerializer < ActiveModel::Serializer
   has_one :account
 
   def duration
-    object.file[:original].duration
+    object.file.duration
   end
 
   def resolution
-    object.file[:original].resolution
+    object.file.resolution
   end
 
   def urls
     {
       original: torrent_url(object),
       torrent: torrent_url(object, format: :torrent),
-      thumbnail: upload_url(object.file[:thumbnail].url),
+      thumbnail: upload_url(object.thumbnail.url),
     }
   end
 end

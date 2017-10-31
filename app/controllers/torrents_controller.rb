@@ -4,7 +4,7 @@ class TorrentsController < ApplicationController
   def show
     respond_to do |format|
       format.all do
-        video = @video.file[:original]
+        video = @video.file
         file  = video.to_io
 
         start_at, end_at = parse_range_header
@@ -28,7 +28,7 @@ class TorrentsController < ApplicationController
   end
 
   def create_torrent
-    piece_length = best_piece_length(@video.file[:original].size)
+    piece_length = best_piece_length(@video.file.size)
     pieces = []
 
     data = {
@@ -50,13 +50,13 @@ class TorrentsController < ApplicationController
       ],
 
       info: {
-        name: @video.file[:original].id,
-        length: @video.file[:original].size,
+        name: @video.file.id,
+        length: @video.file.size,
       },
     }
 
     begin
-      file = @video.file[:original].to_io
+      file = @video.file.to_io
 
       begin
         pieces << Digest::SHA1.digest(file.read(piece_length))
