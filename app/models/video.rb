@@ -23,6 +23,11 @@ class Video < ApplicationRecord
   end
 
   after_commit on: :destroy do
-    ActivityManager.create(:delete, self) if published?
+    ActivityManager.create(account, ActiveModelSerializers::SerializableResource.new(
+      self,
+      serializer: ActivityPub::DeleteSerializer,
+      adapter: ActivityPubAdapter,
+      actor: account
+    ).as_json) if published?
   end
 end

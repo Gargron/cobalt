@@ -7,8 +7,6 @@ class ActivityHandler::Follow < ActivityHandler
 
     return if target_account.remote?
 
-    # Since we don't have private accounts, record follow and respond
-    # with Accept immediately
-    # TODO
+    AcceptFollowService.new.call(target_account, @account, @json)
   end
 end

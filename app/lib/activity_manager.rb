@@ -1,22 +1,15 @@
 class ActivityManager
   class << self
-    def create(type, object)
-      data = ActiveModelSerializers::SerializableResource.new(
-        object,
-        serializer: ActivityPub::ActivitySerializer,
-        adapter: ActivityPubAdapter,
-        type: type.to_s.capitalize,
-        actor: object_owner(object)
-      ).as_json
-
+    def create(account, data)
       payload = nil
 
       ApplicationRecord.transaction do
         payload = Payload.create!(id: data[:id], payload: data, local: true)
-        Activity.create!(account: object_owner(object), payload: payload)
+        Activity.create!(account: account, payload: payload)
       end
 
-      DistributionWorker.perform_async(object_owner(object).id, payload.id)
+      DistributionWorker.perform_async(account.id, payload.id)
+      payload
     end
 
     def from_json(account, json)

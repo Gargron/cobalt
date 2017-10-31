@@ -38,11 +38,26 @@ class API < Grape::API
         video.update!(declared(params, include_missing: false))
 
         if !published && video.published
-          ActivityManager.create(:create, video)
+          ActivityManager.create(video.account, ActiveModelSerializers::SerializableResource.new(
+            video,
+            serializer: ActivityPub::CreateSerializer,
+            adapter: ActivityPubAdapter,
+            actor: video.account
+          ).as_json)
         elsif published && !video.published
-          ActivityManager.create(:delete, video)
+          ActivityManager.create(video.account, ActiveModelSerializers::SerializableResource.new(
+            video,
+            serializer: ActivityPub::DeleteSerializer,
+            adapter: ActivityPubAdapter,
+            actor: video.account
+          ).as_json)
         elsif video.published
-          ActivityManager.create(:update, video)
+          ActivityManager.create(video.account, ActiveModelSerializers::SerializableResource.new(
+            video,
+            serializer: ActivityPub::UpdateSerializer,
+            adapter: ActivityPubAdapter,
+            actor: video.account
+          ).as_json)
         end
 
         video

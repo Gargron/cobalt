@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171031173557) do
+ActiveRecord::Schema.define(version: 20171031201812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20171031173557) do
   create_table "follows", force: :cascade do |t|
     t.bigint "account_id", default: 0, null: false
     t.bigint "target_account_id", default: 0, null: false
+    t.string "payload_id", default: "", null: false
   end
 
   create_table "payloads", id: false, force: :cascade do |t|
@@ -63,5 +64,6 @@ ActiveRecord::Schema.define(version: 20171031173557) do
   add_foreign_key "activities", "payloads", on_delete: :cascade
   add_foreign_key "follows", "accounts", column: "target_account_id", on_delete: :cascade
   add_foreign_key "follows", "accounts", on_delete: :cascade
+  add_foreign_key "follows", "payloads", on_delete: :cascade
   add_foreign_key "videos", "accounts", on_delete: :cascade
 end
