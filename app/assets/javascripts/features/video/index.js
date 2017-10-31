@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import VideoPlayer from './VideoPlayer';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { fetchVideo } from '../../actions';
+import VideoAuthor from './VideoAuthor';
+import VideoDescription from './VideoDescription';
 
 @connect(state => ({ video: state.video }), dispatch => ({ fetchVideo: id => dispatch(fetchVideo(id)) }))
 export default class Video extends PureComponent {
@@ -39,9 +40,8 @@ export default class Video extends PureComponent {
         <VideoPlayer video={video} />
 
         <div className='video__about'>
-          <h1 className='video__about__title'>{video.title}</h1>
-          <div className='video__about__published'>Published on {video.published_at}</div>
-          {video.description.length > 0 && <div className='video__about__description'>{video.description}</div>}
+          <VideoDescription video={video} />
+          <VideoAuthor account={video.account} />
         </div>
       </div>
     );

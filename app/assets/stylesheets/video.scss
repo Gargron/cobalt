@@ -40,24 +40,53 @@ a {
     background: $color1;
     border-radius: 4px;
     font-size: 15px;
-    padding: 15px;
+  }
+}
 
-    &__title {
-      color: $color2;
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
+.video-description {
+  padding: 15px;
 
-    &__published {
-      color: lighten($color1, 34%);
-      font-weight: 500;
-    }
+  &__title {
+    color: $color2;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
 
-    &__description {
-      margin-top: 20px;
-      color: $color2;
+  &__published {
+    color: lighten($color1, 34%);
+    font-weight: 500;
+  }
+
+  &__text {
+    margin-top: 20px;
+    color: $color2;
+  }
+}
+
+.video-author {
+  padding: 15px;
+  border-top: 1px solid darken($color1, 8%);
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    flex: 0 0 auto;
+    margin-right: 15px;
+
+    img {
+      height: 48px;
     }
+  }
+
+  &__text__name {
+    color: $color3;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  &__text__subscribers {
+    color: lighten($color1, 34%);
   }
 }
 
